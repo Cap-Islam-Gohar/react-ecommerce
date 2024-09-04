@@ -6,10 +6,10 @@ import PhoneInput from "../Ui/PhoneInput";
 import PasswordInput from "../Ui/PasswordInput";
 import Input from "../Ui/Input";
 import axios from "axios";
-import { useContext, useState } from "react";
 import Alert from "../Ui/Alert";
-import { UserContext } from "../../Contexts/UserContext";
-import Loader from "./Loader";
+import Loader from "../Ui/Loader";
+import { useLoginMutation } from "../../Redux/Api/Service";
+import { useState } from "react";
 
 PhoneInput
 
@@ -19,9 +19,10 @@ export default function Register() {
         state: '',
         message: '',
     });
-    const [isLoading, setIsLoading] = useState(false);
-    const { setToken } = useContext(UserContext);
-    const navigateTo = useNavigate();
+
+    const navigate = useNavigate();
+
+    const [doLogin, { isLoading, isError, isSuccess, error, data:response}] = useLoginMutation(); 
 
     /**
      * yup email validation function Yup.email() less strict , this function consider the email "user@example" as valid email.
@@ -52,24 +53,26 @@ export default function Register() {
             rePassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password and Password Confirmation must match').required('Password Confirmation Required')
         }),
         onSubmit: (values) => {
-            setIsLoading(true);
             axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', values)
             .then(response => {
                 let { token, user, message } = response.data;
                 if(message === 'success'){
-                    localStorage.setItem('token', token);
-                    setToken(token);
-                    setIsLoading(false);
-                    setServerResponse({ state: 'success', message: 'Welcome, Your will redirect to Dashboard .' });
-                    let x = setTimeout(() => { navigateTo('/'); clearTimeout(x) }, 3000)
+                    try {
+                        doLogin(values).unwrap();
+                        const x = setTimeout(() => {
+                            navigate('/');
+                            setServerResponse({ state: 'success', message: 'Welcome, Your will redirect to Dashboard .' });
+                            clearTimeout(x);
+                        }, 1000);
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    
                 }
-                // console.log(token, user, message)
             })
             .catch(response => {
-                let { statusMsg, message } = response?.response?.data;
+                let { message } = response?.response?.data;
                 setServerResponse({ state: 'error', message: message});
-                setIsLoading(false);
-                // console.log(`${statusMsg} ${message}`)
             });
         }
     });
@@ -86,15 +89,18 @@ export default function Register() {
             </div>
       
             <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
-                <Alert when={serverResponse.state} onClose={() => { setServerResponse({}) }} type={serverResponse.state}>
-                    {serverResponse.message}
-                </Alert>
+                { isError && <Alert when={isError} type={'error'}>
+                    { error?.errors ? error.errors.msg : error.message }
+                </Alert>}
+                { isSuccess && <Alert when={isSuccess} type={'success'}>
+                    Welcome, Your will redirect to Dashboard.
+                </Alert>}
                 <form onSubmit={form.handleSubmit} className="space-y-2">
                     <Input name="name" label="Name" form={form} placeholder="Your Name" required autoComplete="username" />                    
                     <Input type="email" name="email" label="Email Address" form={form} placeholder="username@emaple.com" required autoComplete="email" />
                     <PhoneInput name="phone" label="Mobile Number" form={form} placeholder="+20 (010) 123-456-78" required autoComplete="mobile" />
-                    <PasswordInput type="password" label="Password" name="password" form={form} required placeholder="Password" id="password" />
-                    <Input type="password" label="Password Confirmation" name="rePassword" form={form} required placeholder="Password Confirmation" id="password-confermation" />
+                    <PasswordInput type="password" label="Password" name="password" form={form} required placeholder="Password" id="password" autoComplete="password" />
+                    <Input type="password" label="Password Confirmation" name="rePassword" form={form} required placeholder="Password Confirmation" id="password-confermation" autoComplete="new-password" />
                     <div className="pt-4">
                         <button type="submit" className={['inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
                             isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'].join(" ")}
