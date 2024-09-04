@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './Components/Layout'
+import Guard from './Components/Guard'
+import NotFound from './Components/NotFound'
+import Register from './Components/Auth/Login'
+import Login from './Components/Auth/Login'
+import Home from './Components/Pages/Home'
+import Product from './Components/Pages/Product'
+import Cart from './Components/Pages/Cart'
+import Categories from './Components/Pages/Categories'
+import Brands from './Components/Pages/Brands'
+import { Provider } from 'react-redux';
+import Store from './Redux/Store';
+import Wishlist from './Components/Pages/Wishlist';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+export default function App() {
+
+	const router = createBrowserRouter([
+		{ 
+			path: '', 
+			element: <Layout />, 
+			errorElement: <NotFound/>,
+			children: [
+				{ path : '', index: true, element: <Guard><Home /></Guard>  },
+				{ path: 'register', element: <Register /> },
+				{ path: 'login', element: <Login /> },
+				{ path: 'product/:id', element: <Guard><Product/></Guard> },
+				{ path: 'cart', element: <Guard><Cart/></Guard> },
+                { path: 'wishlist', element: <Guard><Wishlist/></Guard> },
+                { path: 'categories', element: <Guard><Categories/></Guard> },
+                { path: 'brands', element: <Guard><Brands/></Guard> }
+			]
+		},
+	]);
+
+
+	return <Provider store={Store}>
+        <RouterProvider router={router} />
+	</Provider>
 }
-
-export default App
