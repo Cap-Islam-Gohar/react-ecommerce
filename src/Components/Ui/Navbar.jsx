@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid";
+import { ArrowRightStartOnRectangleIcon, BuildingStorefrontIcon } from "@heroicons/react/24/solid";
 import Logout from "../Auth/Logout";
 import { useAuth } from '../../Hooks/useAuth';
 import { useCartQuery } from "../../Redux/Api/Service";
@@ -28,7 +28,7 @@ export default function Navbar() {
                         <div className="">
                             <Link to="">
                                 <span className="sr-only">Company Name</span>
-                                <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+                                <BuildingStorefrontIcon className="h-8 w-auto" ></BuildingStorefrontIcon>
                             </Link>
                         </div>
                         <div className="hidden lg:block">
