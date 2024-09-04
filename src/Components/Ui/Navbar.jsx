@@ -38,6 +38,7 @@ export default function Navbar() {
                                     ['Categories', '/categories'],
                                     ['Brands', '/brands'],
                                     ['Wishlist', '/Wishlist'],
+                                    ['Cart', '/cart'],
                                 ].map(([title, url], i) => (
                                     <NavLink
                                         to={url}
