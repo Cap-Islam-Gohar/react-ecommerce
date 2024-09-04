@@ -39,6 +39,7 @@ export default function App() {
 	return <Provider store={Store}>
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
             </Routes>
