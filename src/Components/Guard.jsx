@@ -5,8 +5,8 @@ import { useAuth } from '../Hooks/useAuth'
 export default function Guard (props){
 
     // const auth = useAuth();
-    const auth = useSelector(state => state.auth)
+    // const auth = useSelector(state => state.auth)
 
-    return auth.token ? props.children : <Navigate to="login" />;
+    return localStorage.getItem('token') ? props.children : <Navigate to="login" />;
  
 }
