@@ -2,7 +2,7 @@ import './App.css';
 import Layout from './Components/Layout'
 import Guard from './Components/Guard'
 import NotFound from './Components/NotFound'
-import Register from './Components/Auth/Login'
+import Register from './Components/Auth/Register'
 import Login from './Components/Auth/Login'
 import Home from './Components/Pages/Home'
 import Product from './Components/Pages/Product'
