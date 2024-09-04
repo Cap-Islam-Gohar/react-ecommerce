@@ -28,7 +28,7 @@ export default function Navbar() {
                         <div className="">
                             <Link to="">
                                 <span className="sr-only">Company Name</span>
-                                <BuildingStorefrontIcon className="h-8 w-auto" ></BuildingStorefrontIcon>
+                                <BuildingStorefrontIcon className="h-8 w-auto text-pink-600" ></BuildingStorefrontIcon>
                             </Link>
                         </div>
                         <div className="hidden lg:block">
