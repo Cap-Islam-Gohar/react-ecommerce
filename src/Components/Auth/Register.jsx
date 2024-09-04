@@ -2,14 +2,16 @@ import { useFormik } from "formik"
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftEndOnRectangleIcon} from "@heroicons/react/24/solid";
-import PhoneInput from "./PhoneInput";
-import PasswordInput from "./PasswordInput";
-import Input from "./Input";
+import PhoneInput from "../Ui/PhoneInput";
+import PasswordInput from "../Ui/PasswordInput";
+import Input from "../Ui/Input";
 import axios from "axios";
 import { useContext, useState } from "react";
-import Alert from "./Alert";
+import Alert from "../Ui/Alert";
 import { UserContext } from "../../Contexts/UserContext";
 import Loader from "./Loader";
+
+PhoneInput
 
 export default function Register() {
 
