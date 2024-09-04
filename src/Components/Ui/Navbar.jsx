@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export default function Navbar() {
 
     // const auth = useAuth();
-    const { token } = useSelector(state.auth);
+    const { token } = useSelector(state => state.auth);
 
     const {data :cart = {}, error, isLoading, isError} = useCartQuery();
 
