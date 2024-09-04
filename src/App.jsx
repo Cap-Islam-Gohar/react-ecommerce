@@ -29,6 +29,7 @@ export default function App() {
                     <Route path="/brands" element={<Guard><Brands /></Guard>} />
                     <Route path="/categories" element={<Guard><Categories /></Guard>} />
                     <Route path="/wishlist" element={<Guard><Wishlist /></Guard>} />
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
         </BrowserRouter>
