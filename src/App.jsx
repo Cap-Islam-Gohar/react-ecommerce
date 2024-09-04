@@ -19,18 +19,18 @@ export default function App() {
 
 	const router = createBrowserRouter([
 		{ 
-			path: '', 
+			path: '/', 
 			element: <Layout />, 
 			errorElement: <NotFound/>,
 			children: [
-				{ path : '', index: true, element: <Guard><Home /></Guard>  },
-				{ path: 'register', element: <Register /> },
-				{ path: 'login', element: <Login /> },
-				{ path: 'product/:id', element: <Guard><Product/></Guard> },
-				{ path: 'cart', element: <Guard><Cart/></Guard> },
-                { path: 'wishlist', element: <Guard><Wishlist/></Guard> },
-                { path: 'categories', element: <Guard><Categories/></Guard> },
-                { path: 'brands', element: <Guard><Brands/></Guard> }
+				{ path : '/', index: true, element: <Guard><Home /></Guard>  },
+				{ path: '/register', element: <Register /> },
+				{ path: '/login', element: <Login /> },
+				{ path: '/product/:id', element: <Guard><Product/></Guard> },
+				{ path: '/cart', element: <Guard><Cart/></Guard> },
+                { path: '/wishlist', element: <Guard><Wishlist/></Guard> },
+                { path: '/categories', element: <Guard><Categories/></Guard> },
+                { path: '/brands', element: <Guard><Brands/></Guard> }
 			]
 		},
 	]);
