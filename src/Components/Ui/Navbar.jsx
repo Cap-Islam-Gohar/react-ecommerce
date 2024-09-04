@@ -4,10 +4,12 @@ import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import Logout from "../Auth/Logout";
 import { useAuth } from '../../Hooks/useAuth';
 import { useCartQuery } from "../../Redux/Api/Service";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
 
-    const auth = useAuth();
+    // const auth = useAuth();
+    const { token } = useSelector(state.auth);
 
     const {data :cart = {}, error, isLoading, isError} = useCartQuery();
 
@@ -53,7 +55,7 @@ export default function Navbar() {
                     </div>
                     <div className="flex items-center">
                         <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                            {auth.check() ? <>
+                            {token ? <>
                                 <Logout className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                                     Sign Out
                                     <ArrowRightStartOnRectangleIcon className="h-6 w-6 ml-1" />        
@@ -64,7 +66,7 @@ export default function Navbar() {
                             </>}
                         </div>
 
-                        {auth.check() && <> 
+                        {token && <> 
                             <div className="flex lg:ml-6">
                                 <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
                                     <span className="sr-only">Search</span>
