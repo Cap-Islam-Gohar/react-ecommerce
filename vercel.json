@@ -1,5 +1,16 @@
 {
     "rewrites": [
         {"source": "/(.*)", "destination": "/"}
-    ]
+    ],
+    "routes": [
+        { "src": "/", "dest": "/" },
+        { "src": "/login", "dest": "/" },
+        { "src": "/register", "dest": "/" },
+        { "src": "/product/:id", "dest": "/" },
+        { "src": "cart", "dest": "/" },
+        { "src": "categories", "dest": "/" },
+        { "src": "brands", "dest": "/" },
+        { "src": "wishlist", "dest": "/" }
+      ]
+  
 }
