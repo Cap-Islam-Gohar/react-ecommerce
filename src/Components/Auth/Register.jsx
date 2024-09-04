@@ -11,7 +11,6 @@ import Alert from "./Alert";
 import { UserContext } from "../../Contexts/UserContext";
 import Loader from "./Loader";
 
-
 export default function Register() {
 
     const [serverResponse, setServerResponse] = useState({
