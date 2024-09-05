@@ -21,7 +21,7 @@ export default function Navigation() {
 	// const auth = useAuth();
 	const { token } = useSelector(state => state.auth);
 
-    const {data :cart = {}, error, isLoading, isError} = token ? useCartQuery() : {};
+    const {data :cart = {}, error, isLoading, isError} = useCartQuery();
 
     const { quantity } =  cart;
 
@@ -120,7 +120,7 @@ export default function Navigation() {
 							<div className="ml-4 flex lg:ml-0">
 								<Link to="/">
 									<span className="sr-only">Company Name</span>
-									<BuildingStorefrontIcon className="h-8 w-auto text-pink-700" ></BuildingStorefrontIcon>
+									<BuildingStorefrontIcon className="h-8 w-auto text-emerald-500" ></BuildingStorefrontIcon>
 								</Link>
 							</div>
 
