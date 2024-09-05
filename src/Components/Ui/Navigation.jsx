@@ -21,7 +21,7 @@ export default function Navigation() {
 	// const auth = useAuth();
 	const { token } = useSelector(state => state.auth);
 
-    const {data :cart = {}, error, isLoading, isError} = token && useCartQuery();
+    const {data :cart = {}, error, isLoading, isError} = token ? useCartQuery() : {};
 
     const { quantity } =  cart;
 
@@ -53,10 +53,10 @@ export default function Navigation() {
 
 						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
 							{[
-								['Home', '/'],
-								['Categories', '/categories'],
-								['Brands', '/brands'],
-								['Wishlist', '/Wishlist'],
+								['Home', ''],
+								['Categories', 'categories'],
+								['Brands', 'brands'],
+								['Wishlist', 'Wishlist'],
 							].map(([title, url], i) => (
 								<div key={i} className="flow-root">
 									<NavLink to={url} key={i} 
@@ -76,7 +76,7 @@ export default function Navigation() {
 									<div className="flow-root">
 										<Logout className="-m-2 block p-2 font-medium text-gray-900">
 											Sign Out
-											<ArrowRightStartOnRectangleIcon className="h-6 w-6 ml-1" />        
+											<ArrowRightStartOnRectangleIcon className="inline h-6 w-6 ml-1" />  
 										</Logout>
 									</div>
 									</> : <>
@@ -92,16 +92,6 @@ export default function Navigation() {
 										</div>
 									</>
 								}
-							</div>
-							<div className="flow-root">
-								<a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-									Sign in
-								</a>
-							</div>
-							<div className="flow-root">
-								<a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-									Create account
-								</a>
 							</div>
 						</div>
 					</DialogPanel>
