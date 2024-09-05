@@ -58,7 +58,6 @@ export default function Register() {
                     setServerResponse({ state: 'success', message: 'Welcome, Your will redirect to Dashboard .' });
                     clearTimeout(x);
                 }, 1000);
-                
             } catch (error) {
                 console.log(error)
             }
