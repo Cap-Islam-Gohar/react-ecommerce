@@ -29,7 +29,7 @@ export const api = createApi({
         }),
         register: builder.mutation({
             query: (body) => ({
-                url: 'auth/signin/',
+                url: 'auth/signup/',
                 method: 'POST',
                 body
             }),

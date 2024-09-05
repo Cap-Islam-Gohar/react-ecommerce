@@ -5,7 +5,7 @@ const RootSlice = createSlice({
     initialState: {
         notify : {
             show: false,
-            time: 3000,
+            time: 5000,
             data: {},
         },
     },

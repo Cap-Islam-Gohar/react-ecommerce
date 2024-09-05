@@ -44,46 +44,7 @@ export default function Categories() {
                     </div>
                 ))}
             </div>
-        </div>
-
-
-        {/* <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-            
-            <div className="sm:flex sm:items-baseline sm:justify-between">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
-                <a href="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-                    Browse all categories
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
-            </div>
-
-            <div className="flex flex-wrap gap-6 justify-center">
-
-                {categories.data.map(({_id, slug, name, image}) => (
-                    <Link
-                        key={`/category-/${_id}`}
-                        to={`/categories/${_id}`}
-                        className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
-                    >
-                        <span aria-hidden="true" className="absolute inset-0">
-                            <img src={image} alt={`image-${slug}`} className="h-full w-full object-cover object-center" />
-                        </span>
-                        <span
-                            aria-hidden="true"
-                            className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
-                        />
-                        <span className="relative mt-auto text-center text-xl font-bold text-white">{name}</span>
-                    </Link>
-                ))}
-            </div>
-            <div className="mt-6 px-4 sm:hidden">
-                <a href="#" className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
-                    Browse all categories
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
-            </div>
-        </div> */}
-
+        </div>       
     </>)
 
 }

@@ -5,11 +5,14 @@ import { ArrowLeftEndOnRectangleIcon} from "@heroicons/react/24/solid";
 import PhoneInput from "../Ui/PhoneInput";
 import PasswordInput from "../Ui/PasswordInput";
 import Input from "../Ui/Input";
-import axios from "axios";
 import Alert from "../Ui/Alert";
 import Loader from "../Ui/Loader";
-import { useLoginMutation, useRegisterMutation } from "../../Redux/Api/Service";
-import { useState } from "react";
+import { useRegisterMutation } from "../../Redux/Api/Service";
+import { useEffect, useState } from "react";
+import { useNotify } from '../../Hooks/useNotify';
+import { clsx, regex } from "../../Helpers";
+
+
 
 export default function Register() {
 
@@ -19,8 +22,15 @@ export default function Register() {
     });
 
     const navigate = useNavigate();
+    const notify = useNotify();
 
-    const [doRegister, { isLoading, isError, isSuccess, error, data:response}] = useRegisterMutation(); 
+    const [doRegister, { isLoading, isError, isSuccess, error, data:response}] = useRegisterMutation();
+        
+    useEffect(() => {
+        isSuccess && notify.dispatch.success("welcome back to You Account")
+        isError && notify.dispatch.error(error?.errors?.msg ?? error?.message ?? "Error When Sign In.")
+        isLoading && notify.dispatch.loading('processing...')
+    }, [isSuccess, isError, isLoading ])  
 
     /**
      * yup email validation function Yup.email() less strict , this function consider the email "user@example" as valid email.
@@ -34,13 +44,6 @@ export default function Register() {
      * ToDo: 
      * name regex .. Done
      */
-    const regex = {
-        name: /^[a-zA-Z][a-zA-Z\s ]{0,50}$/,
-        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        phone: /^01[0125][0-9]{8}$/, 
-        // password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])\S{8,100}$/,
-    };
-
     const form = useFormik({
         initialValues: { name: '', email: '', phone: '', password: '', rePassword: '' },
         validationSchema: Yup.object().shape({
@@ -89,8 +92,10 @@ export default function Register() {
                     <PasswordInput type="password" label="Password" name="password" form={form} required placeholder="Password" id="password" autoComplete="password" />
                     <Input type="password" label="Password Confirmation" name="rePassword" form={form} required placeholder="Password Confirmation" id="password-confermation" autoComplete="new-password" />
                     <div className="pt-4">
-                        <button type="submit" className={['inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-                            isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'].join(" ")}
+                        <button type="submit" className={clsx(
+                                'inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+                                isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
+                            )}
                             disabled={isLoading}
                         >
                             <Loader when={isLoading} rightTitle={'Processing...'} />

@@ -7,29 +7,35 @@ import Loader from "../Ui/Loader";
 import Alert from "../Ui/Alert";
 import PasswordInput from "../Ui/PasswordInput";
 import { useLoginMutation } from "../../Redux/Api/Service";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNotify } from "../../Hooks/useNotify";
+import { clsx, regex } from "../../Helpers";
 
 export default function Login() {
+
+    
 
     const [serverResponse, setServerResponse] = useState({
         state: '',
         message: '',
     });
 
-    const regex = {
-        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        // password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])\S{8,100}$/,
-    };  
-
     const navigate = useNavigate();
+    const notify = useNotify(); 
+    const [doLogin, { isLoading, isError, isSuccess, error, data:response}] = useLoginMutation();
 
-    const [doLogin, { isLoading, isError, isSuccess, error, data:response}] = useLoginMutation(); 
-    
+    useEffect(() => {
+        isSuccess && notify.dispatch.success("welcome back to You Account")
+        isError && notify.dispatch.error(error?.errors?.msg ?? error?.message ?? "Error When Sign In.")
+        isLoading && notify.dispatch.loading('processing...')
+    }, [isSuccess, isError, isLoading ]);
+      
+    // We Dont need password validation on login page since security considers.
     const form = useFormik({
         initialValues: { name: '', email: '', password: '' },
         validationSchema: Yup.object().shape({
             email: Yup.string().matches(regex.email, 'Invalid Email Address').required('Email Required'),
-            password: Yup.string().matches(regex.password, 'Incorrect Password').min(6, 'Too Short!').required('Password Required'),
+            // password: Yup.string().matches(regex.password, 'Incorrect Password').min(6, 'Too Short!').required('Password Required'),
         }),
         onSubmit: async (values) => {
             try {
@@ -70,8 +76,10 @@ export default function Login() {
                                 Forgot password?
                             </Link>
                         </p>
-                        <button type="submit" className={['inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-                            isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'].join(" ")}
+                        <button type="submit" className={clsx(
+                                'inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+                                isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
+                            )}
                             disabled={isLoading}
                         > 
                             <Loader when={isLoading} rightTitle={'Processing...'} />

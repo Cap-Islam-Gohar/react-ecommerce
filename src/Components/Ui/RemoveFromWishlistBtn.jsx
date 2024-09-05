@@ -19,10 +19,10 @@ export default function RemoveFromWishlistBtn(props) {
     return (<>
         <button onClick={() => deleteFromWishlist(props.productId) }
             type="button"  
-            className={clsx([
+            className={clsx(
                 props.className,
                 isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
-            ])}
+            )}
             disabled={isLoading}
         > 
             { isLoading || props.children }

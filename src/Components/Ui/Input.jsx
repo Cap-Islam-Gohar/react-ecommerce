@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { clsx } from "../../Helpers";
 
 
 export default function Input(props) {
@@ -58,12 +59,11 @@ export default function Input(props) {
                     required={input.required}
                     placeholder={input.placeholder}
                     autoComplete={input.autoComplete}
-                    className={[
+                    className={clsx(
                         "block w-full border-0 rounded-md py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
                         props.padding,
                         input.getStateClasses(),
-                    ].join(" ")}
-                />
+                    )} />
                 <div className="absolute right-0 inset-y-0 flex items-center px-1.5">
                     {float === "right" && props?.floatRight(input) }
                     {input.hasError() && <ExclamationCircleIcon className="h-5 w-5 text-red-500" />}

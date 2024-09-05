@@ -21,10 +21,10 @@ export default function RemoveFromCartBtn(props) {
     return (<>
         <button onClick={() => deleteFromCart(props.productId) }
             type="button"  
-            className={clsx([
+            className={clsx(
                 props.className,
                 isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
-            ])}
+            )}
             disabled={isLoading}
         > 
             { isLoading || props.children || 'Remove' }

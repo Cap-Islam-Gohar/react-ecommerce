@@ -22,15 +22,15 @@ export default function PasswordInput(props) {
             float="right" 
             floatRight={({hasError, hasSuccess, type}) => 
                 <div onClick={togglePassType}>
-                    {type === 'text' ? <EyeSlashIcon className={clsx([
+                    {type === 'text' ? <EyeSlashIcon className={clsx(
                         'h-5 w-5 text-gray-900', 
                         hasError('password') && 'text-red-500', 
                         hasSuccess('password') && 'text-emerald-500' 
-                    ])} /> : <EyeIcon className={clsx([
+                    )} /> : <EyeIcon className={clsx(
                         'h-5 w-5 text-gray-900', 
                         hasError('password') && 'text-red-500',
                         hasSuccess('password') && 'text-emerald-500' 
-                    ])} />}
+                    )} />}
                 </div>
             }
         >
