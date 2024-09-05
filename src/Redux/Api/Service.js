@@ -27,6 +27,15 @@ export const api = createApi({
             transformResponse: (response) => response,
             transformErrorResponse: (error) => error.data,
         }),
+        register: builder.mutation({
+            query: (body) => ({
+                url: 'auth/signin/',
+                method: 'POST',
+                body
+            }),
+            transformResponse: (response) => response,
+            transformErrorResponse: (error) => error.data,
+        }),
         products: builder.query({
             query: () => "products/",
             transformResponse: (response) => response.data,
@@ -162,6 +171,7 @@ export const api = createApi({
 
 export const { 
     useLoginMutation, 
+    useRegisterMutation,
     useProductsQuery,
     useProductQuery,
     useBrandsQuery,

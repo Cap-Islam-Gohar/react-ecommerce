@@ -8,10 +8,8 @@ import Input from "../Ui/Input";
 import axios from "axios";
 import Alert from "../Ui/Alert";
 import Loader from "../Ui/Loader";
-import { useLoginMutation } from "../../Redux/Api/Service";
+import { useLoginMutation, useRegisterMutation } from "../../Redux/Api/Service";
 import { useState } from "react";
-
-PhoneInput
 
 export default function Register() {
 
@@ -22,7 +20,7 @@ export default function Register() {
 
     const navigate = useNavigate();
 
-    const [doLogin, { isLoading, isError, isSuccess, error, data:response}] = useLoginMutation(); 
+    const [doRegister, { isLoading, isError, isSuccess, error, data:response}] = useRegisterMutation(); 
 
     /**
      * yup email validation function Yup.email() less strict , this function consider the email "user@example" as valid email.
@@ -52,28 +50,18 @@ export default function Register() {
             password: Yup.string().matches(regex.password, 'Password must contains at leatest one or more Charcter and one Number and one Symbol').min(6, 'Too Short!').required('Password Required'),
             rePassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password and Password Confirmation must match').required('Password Confirmation Required')
         }),
-        onSubmit: (values) => {
-            axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', values)
-            .then(response => {
-                let { token, user, message } = response.data;
-                if(message === 'success'){
-                    try {
-                        doLogin(values).unwrap();
-                        const x = setTimeout(() => {
-                            navigate('/');
-                            setServerResponse({ state: 'success', message: 'Welcome, Your will redirect to Dashboard .' });
-                            clearTimeout(x);
-                        }, 1000);
-                    } catch (error) {
-                        console.log(error)
-                    }
-                    
-                }
-            })
-            .catch(response => {
-                let { message } = response?.response?.data;
-                setServerResponse({ state: 'error', message: message});
-            });
+        onSubmit: async (values) => {
+            try {
+                await doRegister(values).unwrap();
+                const x = setTimeout(() => {
+                    navigate('/');
+                    setServerResponse({ state: 'success', message: 'Welcome, Your will redirect to Dashboard .' });
+                    clearTimeout(x);
+                }, 1000);
+                
+            } catch (error) {
+                console.log(error)
+            }
         }
     });
 

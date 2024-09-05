@@ -22,6 +22,11 @@ const AuthSlice = createSlice({
             localStorage.setItem('user', JSON.stringify(payload.user))
             state.token = payload.token
             state.user = payload.user
+        }).addMatcher( api.endpoints.register.matchFulfilled, (state, { payload }) => {
+            localStorage.setItem('token', payload.token)
+            localStorage.setItem('user', JSON.stringify(payload.user))
+            state.token = payload.token
+            state.user = payload.user
         })
     }
 });
