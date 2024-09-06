@@ -52,14 +52,16 @@ export default function Login() {
                 <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Sign in to your account
                 </h2>
-                <span className="block text-center font-it">Or use Demo Account for Testing porpos.</span>
-                <div className="flex items-center p-4">
-                    <div className="ml-4 flex-auto text-emerald-500 font font-medium">
+                <span className="block text-center">Or</span>
+                <span className="block text-center py-1">Use Demo Account for Testing porpos.</span>
+                
+                <div className="flex items-center">
+                    <div className="flex-auto text-emerald-500 text-xs font font-medium">
                         <div><span className="font-bold text-slate-900">Email: </span>demo.user@example.com</div>
                         <div><span className="font-bold text-slate-900">Password: </span> 12345@Demo</div>
                         <div><span className="font-bold text-slate-900">Role: </span> User</div>
                     </div>
-                    <button onClick={() => form.setValues({email: 'demo.user@example.com', password:'12345@Demo'})} className="ml-4 cursor-pointer flex-none rounded-md px-2 py-[0.3125rem] font-medium text-emerald-700 shadow-sm ring-1 ring-emerald-700/10 hover:bg-emerald-50">
+                    <button onClick={() => form.setValues({email: 'demo.user@example.com', password:'12345@Demo'})} className="ml-4 cursor-pointer flex-none text-xs rounded-md px-2 py-[0.3125rem] font-medium text-emerald-700 shadow-sm ring-1 ring-emerald-700/10 hover:bg-emerald-50">
                         Use Credentials
                     </button>
                 </div>

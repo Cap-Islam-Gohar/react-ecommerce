@@ -52,25 +52,7 @@ export default function Navigation() {
 							</button>
 						</div>
 
-						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
-							{[
-								['Home', ''],
-								['Categories', 'categories'],
-								['Brands', 'brands'],
-								['Wishlist', 'Wishlist'],
-							].map(([title, url], i) => (
-								<div key={i} className="flow-root">
-									<NavLink to={url} key={i} 
-										className={ ({ isActive }) => clsx(
-											"-m-2 block p-2 font-medium", 
-											isActive ? "text-gray-100 bg-gray-900" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-										)}>
-										{title}
-									</NavLink>
-								</div>
-							))}
-						</div>
-
+						{ auth.check() && <>
 						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
 							<div className="flow-root">
 								{auth.check() ? <>
@@ -95,6 +77,7 @@ export default function Navigation() {
 								}
 							</div>
 						</div>
+						</>}
 					</DialogPanel>
 				</div>
 			</Dialog>
@@ -125,27 +108,29 @@ export default function Navigation() {
 								</Link>
 							</div>
 
-							{/* Flyout menus */}
-							<div className="hidden lg:ml-8 lg:block lg:self-stretch">
-								<div className="flex h-full items-center space-x-8">
-									{[
-										['Home', ''],
-										['Categories', '/categories'],
-										['Brands', '/brands'],
-										['Wishlist', '/Wishlist'],
-									].map(([title, url], i) => (
-										<NavLink
-											to={url}
-											key={i}
-											className={({ isActive }) => clsx(
-												"rounded-lg px-3 py-2 font-medium",
-												isActive ? "text-slate-100 bg-slate-900" : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
-											)}>
-											{title}
-										</NavLink>
-									))}
+							{/* menus */}
+							{ auth.check() && <>
+								<div className="hidden lg:ml-8 lg:block lg:self-stretch">
+									<div className="flex h-full items-center space-x-8">
+										{[
+											['Home', ''],
+											['Categories', '/categories'],
+											['Brands', '/brands'],
+											['Wishlist', '/Wishlist'],
+										].map(([title, url], i) => (
+											<NavLink
+												to={url}
+												key={i}
+												className={({ isActive }) => clsx(
+													"rounded-lg px-3 py-2 font-medium",
+													isActive ? "text-slate-100 bg-slate-900" : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
+												)}>
+												{title}
+											</NavLink>
+										))}
+									</div>
 								</div>
-							</div>
+							</>}
 
 							<div className="ml-auto flex items-center">
 								<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -162,6 +147,7 @@ export default function Navigation() {
 								</div>
 
 								{/* Search */}
+								{ auth.check() && <>
 								<div className="flex lg:ml-6">
 									<a href="#" className="p-2 text-gray-400 hover:text-gray-500">
 										<span className="sr-only">Search</span>
@@ -180,6 +166,8 @@ export default function Navigation() {
 										<span className="sr-only">items in cart, view bag</span>
 									</Link>
 								</div>
+								</>}
+
 							</div>
 						</div>
 					</div>
