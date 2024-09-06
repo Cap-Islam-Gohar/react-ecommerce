@@ -73,7 +73,7 @@ export default function Navigation() {
 
 						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
 							<div className="flow-root">
-								{token ? <>
+								{auth.check() ? <>
 									<div className="flow-root">
 										<Logout className="-m-2 block p-2 font-medium text-gray-900">
 											Sign Out
@@ -127,7 +127,7 @@ export default function Navigation() {
 
 							{/* Flyout menus */}
 							<div className="hidden lg:ml-8 lg:block lg:self-stretch">
-								<div className="flex h-full space-x-8">
+								<div className="flex h-full items-center space-x-8">
 									{[
 										['Home', ''],
 										['Categories', '/categories'],
@@ -149,7 +149,7 @@ export default function Navigation() {
 
 							<div className="ml-auto flex items-center">
 								<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-								{token ? <>
+								{auth.check() ? <>
 									<Logout className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
 										Sign Out
 										<ArrowRightStartOnRectangleIcon className="h-6 w-6 ml-1" />        

@@ -1,12 +1,11 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { useAuth } from '../Hooks/useAuth'
+import { useAuth } from  '../Hooks/useAuth'
 
 export default function Guard (props){
 
-    // const auth = useAuth();
-    // const auth = useSelector(state => state.auth)
+    const auth = useAuth();
 
-    return localStorage.getItem('token') ? props.children : <Navigate to="login" />;
+    return auth.check() ? props.children : <Navigate to="/login" />;
  
 }
