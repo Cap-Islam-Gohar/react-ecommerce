@@ -7,32 +7,25 @@ import Loader from "../Ui/Loader";
 import Alert from "../Ui/Alert";
 import PasswordInput from "../Ui/PasswordInput";
 import { useLoginMutation } from "../../Redux/Api/Service";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNotify } from "../../Hooks/useNotify";
 import { clsx, regex } from "../../Helpers";
 
 export default function Login() {
 
-    
-
-    const [serverResponse, setServerResponse] = useState({
-        state: '',
-        message: '',
-    });
-
     const navigate = useNavigate();
-    const notify = useNotify(); 
-    const [doLogin, { isLoading, isError, isSuccess, error, data:response}] = useLoginMutation();
+    const notify = useNotify();
+    const [doLogin, { isLoading, isError, isSuccess, error, data: response }] = useLoginMutation();
 
     useEffect(() => {
         isSuccess && notify.dispatch.success("welcome back to You Account")
         isError && notify.dispatch.error(error?.errors?.msg ?? error?.message ?? "Error When Sign In.")
         isLoading && notify.dispatch.loading('processing...')
-    }, [isSuccess, isError, isLoading ]);
-      
+    }, [isSuccess, isError, isLoading]);
+
     // We Dont need password validation on login page since security considers.
     const form = useFormik({
-        initialValues: { name: '', email: '', password: '' },
+        initialValues: { email: '', password: '' },
         validationSchema: Yup.object().shape({
             email: Yup.string().matches(regex.email, 'Invalid Email Address').required('Email Required'),
             // password: Yup.string().matches(regex.password, 'Incorrect Password').min(6, 'Too Short!').required('Password Required'),
@@ -59,12 +52,23 @@ export default function Login() {
                 <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Sign in to your account
                 </h2>
+                <span className="block text-center font-it">Or use Demo Account for Testing porpos.</span>
+                <div className="flex items-center p-4">
+                    <div className="ml-4 flex-auto text-emerald-500 font font-medium">
+                        <div><span className="font-bold text-slate-900">Email: </span>demo.user@example.com</div>
+                        <div><span className="font-bold text-slate-900">Password: </span> 12345@Demo</div>
+                        <div><span className="font-bold text-slate-900">Role: </span> User</div>
+                    </div>
+                    <button onClick={() => form.setValues({email: 'demo.user@example.com', password:'12345@Demo'})} className="ml-4 cursor-pointer flex-none rounded-md px-2 py-[0.3125rem] font-medium text-emerald-700 shadow-sm ring-1 ring-emerald-700/10 hover:bg-emerald-50">
+                        Use Credentials
+                    </button>
+                </div>
             </div>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                { isError && <Alert when={isError} type={'error'}>
-                    { error?.errors ? error.errors.msg : error.message }
+                {isError && <Alert when={isError} type={'error'}>
+                    {error?.errors ? error.errors.msg : error.message}
                 </Alert>}
-                { isSuccess && <Alert when={isSuccess} type={'success'}>
+                {isSuccess && <Alert when={isSuccess} type={'success'}>
                     Welcome, Your will redirect to Dashboard.
                 </Alert>}
                 <form onSubmit={form.handleSubmit} className="space-y-2">
@@ -77,13 +81,13 @@ export default function Login() {
                             </Link>
                         </p>
                         <button type="submit" className={clsx(
-                                'inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-                                isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
-                            )}
+                            'inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+                            isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
+                        )}
                             disabled={isLoading}
-                        > 
+                        >
                             <Loader when={isLoading} rightTitle={'Processing...'} />
-                            { !isLoading && 'Sign Up' }
+                            {!isLoading && 'Sign Up'}
                         </button>
                     </div>
                 </form>

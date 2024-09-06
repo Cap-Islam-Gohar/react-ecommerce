@@ -12,16 +12,17 @@ import { useCartQuery } from '../../Redux/Api/Service'
 import { useSelector } from 'react-redux'
 import Logout from '../Auth/Logout'
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid'
-
+import { useAuth } from '../../Hooks/useAuth'
 
 export default function Navigation() {
 	
-	const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState(false);
 
-	// const auth = useAuth();
+	const auth = useAuth();
+
 	const { token } = useSelector(state => state.auth);
 
-    const {data :cart = {}, error, isLoading, isError} = useCartQuery();
+    const {data :cart = {}, error, isLoading, isError} = useCartQuery('Cart', {skip:(!auth.check())});
 
     const { quantity } =  cart;
 
@@ -175,7 +176,7 @@ export default function Navigation() {
 											aria-hidden="true"
 											className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 										/>
-										<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{ quantity }</span>
+										<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{ quantity ?? 0 }</span>
 										<span className="sr-only">items in cart, view bag</span>
 									</Link>
 								</div>
