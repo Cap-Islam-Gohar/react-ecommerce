@@ -32,7 +32,7 @@ export default function Notification(props) {
 
     return (
         <>
-            <div className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6" >
+            <div className="pointer-events-none fixed inset-0 flex justify-center items-end px-4 py-6 sm:p-6" >
                 <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
                     <Transition
                         show={show}
@@ -44,16 +44,16 @@ export default function Notification(props) {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="p-4">
+                        <div className="pointer-events-auto w-full max-w-md mx-auto overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="px-2 py-3">
                                 <div className="flex items-start">
                                     {toastIcon && <div className="flex-shrink-0">
                                         { toastIcon }
                                     </div>}
-                                    <div className="ml-3 w-0 flex-1 pt-0.5">
-                                        <p className="text-sm font-medium text-gray-900">{ data.message }</p>
+                                    <div className="flex-1">
+                                        <p className="text-xs sm:text-sm text-center font-medium text-gray-900">{ data.message }</p>
                                     </div>
-                                    <div className="ml-4 flex flex-shrink-0">
+                                    <div className="flex flex-shrink-0">
                                         <button
                                             type="button"
                                             className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

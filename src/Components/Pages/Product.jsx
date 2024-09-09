@@ -1,16 +1,24 @@
 import { Link, useParams } from "react-router-dom"
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
-import { HeartIcon } from '@heroicons/react/24/outline'
+import { HeartIcon } from "@heroicons/react/24/solid";
 import AddToCartBtn from "../Ui/AddToCartBtn";
 import AddToWishlistBtn from "../Ui/AddToWishlistBtn";
-import { useProductQuery } from "../../Redux/Api/Service";
+import { useProductQuery, useWishlistQuery } from "../../Redux/Api/Service";
 import { clsx } from '../../Helpers';
+import LoaderIcon from "../Ui/LoaderIcon";
+import RemoveFromWishlistBtn from "../Ui/RemoveFromWishlistBtn";
+
+
 export default function Product() {
 
-    const params = useParams();
+    const { id } = useParams();
 
-    const {data :product, error, isLoading, isError} = useProductQuery(params.id);
+    const wishlist = useWishlistQuery();
+
+    const {data :product, error, isLoading, isError} = useProductQuery(id);
+
+    const isInWishlist = wishlist.isSuccess && wishlist.data.data.filter(wp => wp._id === product._id).length !== 0 ? false : true;
 
 
     return ( product && <>
@@ -96,16 +104,30 @@ export default function Product() {
 
                     <div className="sm:flex-col1 mt-10 flex">
 
-                        <AddToCartBtn productId={product.id} 
-                            className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
-                        />
+                        <AddToCartBtn id={product.id} className={"flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"}>
+                            {({isLoading}) => {
+                                return (<>
+                                    {!isLoading && "Add To Cart"}
+                                    {isLoading && (<>
+                                        <LoaderIcon className={"inline-block w-6 h-6 mr-2"} />
+                                        {"Adding..."}
+                                    </>)} 
+                                </>)
+                            }}                              
+                        </AddToCartBtn>
                         
-                        <AddToWishlistBtn productId={product.id} 
-                            className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
-                            <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
-                            <span className="sr-only">Add to favorites</span>
-                        </AddToWishlistBtn>
-
+                        {isInWishlist ? 
+                            <AddToWishlistBtn productId={product.id} 
+                                className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                                <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
+                                <span className="sr-only">Add to favorites</span>
+                            </AddToWishlistBtn> : 
+                            <RemoveFromWishlistBtn id={product.id} 
+                                className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-red-400 hover:bg-red-100 hover:text-red-500">
+                                <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
+                                <span className="sr-only">Add to favorites</span>
+                            </RemoveFromWishlistBtn>
+                        }
                     </div>
 
                 </div>

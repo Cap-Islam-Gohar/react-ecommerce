@@ -2,6 +2,7 @@ import { CheckIcon, ClockIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
 import { useCartQuery } from '../../Redux/Api/Service';
 import RemoveFromCartBtn from '../Ui/RemoveFromCartBtn';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 export default function Cart() {
 
@@ -53,11 +54,11 @@ export default function Cart() {
                                                 <ClockIcon className="h-5 w-5 flex-shrink-0 text-gray-300" aria-hidden="true" />
                                             )}
 
-                                            <span>{inStock ? 'In stock' : `Will ship in three days`}</span>
+                                            <span className='block'>{inStock ? 'In stock' : `Will ship in three days`}</span>
                                         </p>
-                                        <div className="ml-4">
-                                            <RemoveFromCartBtn  productId={id}  className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                                <span>Remove</span>
+                                        <div className="ml-4 -mb-4">
+                                            <RemoveFromCartBtn  id={id}  className="rounded-md font-medium text-red-500 bg-red-50 hover:bg-red-100">
+                                                <XMarkIcon className='h-8 w-8' />
                                             </RemoveFromCartBtn>
                                         </div>
                                     </div>

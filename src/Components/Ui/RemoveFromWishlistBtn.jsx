@@ -4,9 +4,9 @@ import { useNotify } from '../../Hooks/useNotify';
 import { useEffect } from 'react';
 import { clsx } from '../../Helpers';
 
-export default function RemoveFromWishlistBtn(props) {
+export default function RemoveFromWishlistBtn({id, className, children}) {
 
-    const [deleteFromWishlist, { isLoading, isSuccess, isError, error, data:response}] = useRemoveFromWishlistMutation(props.productId);
+    const [deleteFromWishlist, { isLoading, isSuccess, isError, error, data:response}] = useRemoveFromWishlistMutation(id);
 
     const notify = useNotify();
     
@@ -17,15 +17,15 @@ export default function RemoveFromWishlistBtn(props) {
     })
     
     return (<>
-        <button onClick={() => deleteFromWishlist(props.productId) }
+        <button onClick={() => deleteFromWishlist(id) }
             type="button"  
             className={clsx(
-                props.className,
+                className,
                 isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
             )}
             disabled={isLoading}
         > 
-            { isLoading || props.children }
+            { isLoading || children }
             <Loader when={isLoading} />
         </button>
     </>)

@@ -5,29 +5,30 @@ import { useEffect } from "react";
 import { clsx } from '../../Helpers';
 
 
-export default function RemoveFromCartBtn(props) {
+export default function RemoveFromCartBtn({ id, className, children }) {
 
 
-    const [deleteFromCart, { isLoading, isSuccess, isError, error, data:response}] = useRemoveFromCartMutation(props.productId);
+    const [deleteFromCart, { isLoading, isSuccess, isError, error, data:response}] = useRemoveFromCartMutation(id);
 
     const notify = useNotify();
     
     useEffect( () => {
-        isSuccess && notify.dispatch.success(response.message)
-        isError && notify.dispatch.error("Error while Removing Product from Cart")
+        isSuccess && notify.dispatch.success("Product successfull Removed from Cart.")
+        console.log(response)
+        isError && notify.dispatch.error("Error while Removing Product from Cart.")
         isLoading && notify.dispatch.loading('Removing Product...')
     })
     
     return (<>
-        <button onClick={() => deleteFromCart(props.productId) }
+        <button onClick={() => deleteFromCart(id) }
             type="button"  
             className={clsx(
-                props.className,
+                className,
                 isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
             )}
             disabled={isLoading}
         > 
-            { isLoading || props.children || 'Remove' }
+            { isLoading || children || 'Remove' }
             <Loader when={isLoading} rightTitle={'Processing...'} />
         </button>
     </>)

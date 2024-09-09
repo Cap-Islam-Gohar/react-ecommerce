@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { useNotify } from '../../Hooks/useNotify';
 import { clsx } from '../../Helpers';
 
-export default function AddToWishlistBtn(props) {
+export default function AddToWishlistBtn({ id, className, children }) {
     
     
 
-    const [addToWishlist, { isLoading, isError, isSuccess, error, data:response}] = useAddToWishlistMutation(props.productId);
+    const [addToWishlist, { isLoading, isError, isSuccess, error, data:response}] = useAddToWishlistMutation(id);
 
     const notify = useNotify();
     
@@ -19,15 +19,15 @@ export default function AddToWishlistBtn(props) {
     })
 
     return (<>
-        <button onClick={() => addToWishlist(props.productId) }
+        <button onClick={() => addToWishlist(id) }
             type="button"  
             className={clsx(
-                props.className,
+                className,
                 isLoading && 'transition ease-in-out duration-150 cursor-not-allowed'
             )}
             disabled={isLoading}
         > 
-            { isLoading || props.children }
+            { isLoading || children }
             <Loader when={isLoading} />
         </button>
     </>)

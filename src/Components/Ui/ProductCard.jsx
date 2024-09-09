@@ -3,23 +3,18 @@ import { Link } from "react-router-dom";
 import AddToCartBtn from "./AddToCartBtn";
 import AddToWishlistBtn from "./AddToWishlistBtn";
 import RemoveFromWishlistBtn from "./RemoveFromWishlistBtn";
-import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import LoaderIcon from "./LoaderIcon";
 
-export default function ProductCard(props) {
-
-    let product = props.product;    
+export default function ProductCard({ product, isInWishlist }) {
 
     const [show, setShow] = useState(false);
 
     useEffect(() => {
         let showProduct = setTimeout(() => {
             setShow(true);
-        }, 150);
-
-        return () => {
             clearTimeout(showProduct)
-        }
+        }, 500);
     });
     
 
@@ -35,22 +30,32 @@ export default function ProductCard(props) {
                     <p className="relative text-lg font-semibold text-white">{product.price}<span className="text-sm">E£</span></p>
                 </div>
             </Link>
-            <div className="relative mt-4">
+            <div className="relative mt-1">
                     <h3 className="text-sm font-medium text-gray-900 truncate">{product.title}</h3>
                     <p className="mt-1 text-sm text-gray-500">{product.category.name}</p>
                 </div>
-            <div className="mt-2 flex justify-between space-x-2 relative w-full transition-all duration-1000 opacity-0 group-hover:opacity-100 translate-y-full group-hover:translate-y-0">
-                <AddToCartBtn productId={product.id} className="flex flex-1 items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-2 text-sm font-medium text-emerald-100 hover:bg-emerald-500">
-                    Add to Cart
+            <div className="mt-1 h-10 w-full flex justify-between space-x-2 relative transition-all duration-1000 opacity-0 group-hover:opacity-100 translate-y-full group-hover:translate-y-0">
+                <AddToCartBtn id={product.id} className={"flex w-full h-10 items-center justify-center rounded-md border border-transparent bg-emerald-600 text-sm font-medium text-emerald-100 hover:bg-emerald-500"}>
+                    {({isLoading}) => {
+                        return (<>
+                            {!isLoading && "Add To Cart"}
+                            {isLoading && (<>
+                                <LoaderIcon className={"inline-block w-6 h-6 mr-2"}     />
+                                {"Adding..."}
+                            </>)} 
+                        </>)
+                    }}                              
                 </AddToCartBtn>
-                {props.isInWishlist && <AddToWishlistBtn productId={product.id} 
-                    className="items-center justify-center rounded-md px-1 py-1 text-xs sm:px-3 sm:py-3 text-red-400 hover:bg-red-100 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-50">
-                    <OutlineHeartIcon className="h-6 w-6 cursor-pointer" aria-hidden="true" />
+
+                
+                {isInWishlist && <AddToWishlistBtn id={product.id} 
+                    className="flex w-10 p-1 justify-center items-center rounded-md text-xs bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-50">
+                    <HeartIcon className="w-full h-full cursor-pointer" aria-hidden="true" />
                     <span className="sr-only">Add to favorites</span>
                 </AddToWishlistBtn>}
-                {!props.isInWishlist && <RemoveFromWishlistBtn productId={product.id} 
-                    className="items-center justify-center rounded-md px-1 py-1 text-xs sm:px-3 sm:py-3 text-red-400 hover:bg-red-100 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-50">
-                    <SolidHeartIcon className="h-6 w-6 cursor-pointer" aria-hidden="true" />
+                {!isInWishlist && <RemoveFromWishlistBtn id={product.id} 
+                    className="flex w-10 p-1 justify-center items-center rounded-md text-xs text-red-400 hover:bg-red-100 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-50">
+                    <HeartIcon className="w-full h-full  cursor-pointer" aria-hidden="true" />
                     <span className="sr-only">Add to favorites</span>
                 </RemoveFromWishlistBtn>}
                 

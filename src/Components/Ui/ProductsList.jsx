@@ -22,9 +22,12 @@ export default function ProductsList() {
                 {error?.message}
             </Alert>
             <div className="sm:flex sm:items-baseline sm:justify-between">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900">Recent Products</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                    <span>Recent Products</span> 
+                    <Loader className="inline-block ml-2 self-basline w-6 h-6" when={isLoading} />
+                </h2>
                 <a href="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-                    see all Products <Loader when={isLoading} />
+                    see all Products
                     <span aria-hidden="true"> &rarr;</span>
                 </a>
             </div>

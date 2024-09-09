@@ -26,6 +26,13 @@ export default function Navigation() {
 
     const { quantity } =  cart;
 
+	const menuItems = [
+		['Home', ''],
+		['Categories', 'categories'],
+		['Brands', 'brands'],
+		['Wishlist', 'Wishlist'],
+	];
+
 	return (
 		<div className="bg-white">
 			{/* Mobile menu */}
@@ -54,30 +61,44 @@ export default function Navigation() {
 
 						{ auth.check() && <>
 						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
-							<div className="flow-root">
-								{auth.check() ? <>
-									<div className="flow-root">
-										<Logout className="-m-2 block p-2 font-medium text-gray-900">
-											Sign Out
-											<ArrowRightStartOnRectangleIcon className="inline h-6 w-6 ml-1" />  
-										</Logout>
-									</div>
-									</> : <>
-										<div className="flow-root">
-											<Link to="login" className="-m-2 block p-2 font-medium text-gray-900">
-												Sign in
-											</Link>
-										</div>
-										<div className="flow-root">
-											<Link to="register" className="-m-2 block p-2 font-medium text-gray-900">
-												Sign in
-											</Link>
-										</div>
-									</>
-								}
-							</div>
+							{menuItems.map(([title, url], i) => (
+								<div key={`menu-${i}`} className="flow-root">
+									<NavLink 
+										to={url}
+										className={({ isActive }) => clsx(
+											"-m-2 block rounded-lg p-2 font-medium text-gray-900",
+											isActive ? "text-slate-100 bg-slate-900" : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
+										)}>
+										{title}
+									</NavLink>
+								</div>
+							))}
 						</div>
 						</>}
+
+
+						<div className="space-y-6 border-t border-gray-200 px-4 py-6">
+							{auth.check() ? <>
+								<div className="flow-root">
+									<Logout className="-m-2 block p-2 font-medium text-gray-900">
+										Sign Out
+										<ArrowRightStartOnRectangleIcon className="inline h-6 w-6 ml-1" />  
+									</Logout>
+								</div>
+								</> : <>
+									<div className="flow-root">
+										<Link to="login" className="-m-2 block p-2 font-medium text-gray-900">
+											Sign in
+										</Link>
+									</div>
+									<div className="flow-root">
+										<Link to="register" className="-m-2 block p-2 font-medium text-gray-900">
+											Sign Up
+										</Link>
+									</div>
+								</>
+							}
+						</div>
 					</DialogPanel>
 				</div>
 			</Dialog>
@@ -112,12 +133,7 @@ export default function Navigation() {
 							{ auth.check() && <>
 								<div className="hidden lg:ml-8 lg:block lg:self-stretch">
 									<div className="flex h-full items-center space-x-8">
-										{[
-											['Home', ''],
-											['Categories', '/categories'],
-											['Brands', '/brands'],
-											['Wishlist', '/Wishlist'],
-										].map(([title, url], i) => (
+										{menuItems.map(([title, url], i) => (
 											<NavLink
 												to={url}
 												key={i}

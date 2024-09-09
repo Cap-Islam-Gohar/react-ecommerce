@@ -1,12 +1,13 @@
-import Loader from "./Loader";
+import LoaderIcon from "./LoaderIcon";
 import { useAddToCartMutation } from "../../Redux/Api/Service";
 import { useEffect } from 'react'
 import { useNotify } from "../../Hooks/useNotify";
+import { clsx } from "../../Helpers";
 
-export default function AddToCartBtn(props) {
+export default function AddToCartBtn({ id, className, children }) {
 
 
-    const [addToCart, { isLoading, isError, isSuccess, error, data:response}] = useAddToCartMutation(props.productId);
+    const [addToCart, { isLoading, isError, isSuccess, error, data:response}] = useAddToCartMutation(id);
 
     const notify = useNotify();
     
@@ -17,9 +18,12 @@ export default function AddToCartBtn(props) {
     })
     
     return (<>
-        <button type="button" onClick={() => addToCart(props.productId)} className={props.className}>
-            { isLoading || props.children || 'Add To Cart' }
-            <Loader when={isLoading} rightTitle={'Processing...'} />
+
+        <button type="button" onClick={() => addToCart(id)} className={clsx(
+            'disabled:cursor-not-allowed',
+            className
+        )} disabled={isLoading}>
+            {children({isLoading})}
         </button>
     </>)
 }
